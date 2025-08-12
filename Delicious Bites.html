@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delicious Bites - Fine Dining Restaurant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #d4af37;
+            --secondary: #8b0000;
+            --dark: #1a1a1a;
+            --light: #f8f8f8;
+            --gray: #666;
+            --success: #4BB543;
+        }
+
+        body {
+            background-color: #000;
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 12px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        header.scrolled {
+            padding: 8px 4%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--light);
+        }
+
+        nav {
+            position: fixed;
+            top: 60px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        nav.active {
+            left: 0;
+        }
+
+        nav ul {
+            flex-direction: column;
+            padding: 30px 20px;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 15px 0;
+        }
+
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px 0;
+            display: block;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: block;
+            font-size: 24px;
+            color: var(--light);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            max-width: 100%;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            color: #ddd;
+            max-width: 100%;
+        }
+
+        .hero-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background: #c19d2a;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 60px 4%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .section-title p {
+            color: #ffffff;
+            max-width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .about-text {
+            order: 2;
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        .about-image {
+            order: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Menu Section */
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            padding: 10px 15px;
+            margin: 3px;
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+            cursor: pointer;
+            border-radius: 20px;
+            transition: 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--dark);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item-content {
+            padding: 20px;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            align-items: flex-start;
+        }
+
+        .menu-item-title {
+            font-size: 1.2rem;
+            color: var(--light);
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .menu-item-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .menu-item-desc {
+            color: #aaa;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Reservation Section */
+        .reservation {
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+        }
+
+        .reservation-form {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: var(--light);
+            font-size: 14px;
+        }
+
+        /* Improved select styling for better visibility */
+        .form-group select {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid var(--primary);
+            color: var(--light);
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        .form-group select option {
+            background: #1a1a1a;
+            color: var(--light);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Custom number input styling */
+        .custom-guests {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .custom-guests input {
+            width: 80px;
+            text-align: center;
+        }
+
+        .guest-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .guest-btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .guest-btn:hover {
+            background: #c19d2a;
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .success-message.show .success-content {
+            transform: scale(1);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+        }
+
+        .success-content h3 {
+            font-size: 2rem;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+
+        .success-content p {
+            color: #ccc;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .close-success {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-success:hover {
+            background: #c19d2a;
+            transform: translateY(-2px);
+        }
+
+        /* Newsletter Success Message */
+        .newsletter-success {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-success.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .newsletter-content {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-success.show .newsletter-content {
+            transform: scale(1);
+        }
+
+        .newsletter-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: var(--dark);
+        }
+
+        .newsletter-content h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .newsletter-content p {
+            color: #ccc;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .close-newsletter {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-newsletter:hover {
+            background: #c19d2a;
+            transform: translateY(-2px);
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            height: 150px;
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--dark);
+            flex-shrink: 0;
+        }
+
+        .contact-details h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+
+        .contact-details p {
+            color: #aaa;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 40px 4% 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 3px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .reservation-form {
+                padding: 35px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            header {
+                padding: 15px 5%;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            nav {
+                position: static;
+                height: auto;
+                background: transparent;
+                backdrop-filter: none;
+                width: auto;
+            }
+            
+            nav ul {
+                flex-direction: row;
+                padding: 0;
+            }
+            
+            nav ul li {
+                margin: 0 12px;
+            }
+            
+            nav ul li a {
+                font-size: 16px;
+                padding: 0;
+            }
+            
+            .nav-buttons {
+                display: flex;
+                gap: 12px;
+            }
+            
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero-btns {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .about-content {
+                flex-direction: row;
+                gap: 40px;
+            }
+            
+            .about-text {
+                order: 1;
+                flex: 1;
+            }
+            
+            .about-image {
+                order: 2;
+                flex: 1;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+            
+            section {
+                padding: 80px 5%;
+            }
+            
+            .reservation-form {
+                max-width: 600px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="#" class="logo">Delicious<span>Bites</span></a>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav id="nav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#reservation">Reservation</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="nav-buttons">
+            <a href="#reservation" class="btn btn-outline">Book Table</a>
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Experience Culinary Excellence</h1>
+            <p>Indulge in a symphony of flavors crafted by our award-winning chefs using the finest ingredients.</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn btn-primary">Explore Menu</a>
+                <a href="#reservation" class="btn btn-outline">Book a Table</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-title">
+            <h2>Our Story</h2>
+            <p>Discover the passion behind our culinary journey</p>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>A Culinary Journey of Excellence</h3>
+                <p>Founded in 2010, Delicious Bites has been a cornerstone of fine dining. Our commitment to exceptional cuisine and unparalleled service has made us a beloved destination.</p>
+                <p>Our chefs combine traditional techniques with innovative approaches, creating dishes that celebrate both local flavors and international influences.</p>
+                <p>We source ingredients from local farmers and trusted suppliers, ensuring the highest quality in every dish we serve.</p>
+                <a href="#menu" class="btn btn-primary">Discover Our Menu</a>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Chef preparing food">
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="section-title">
+            <h2>Our Menu</h2>
+            <p>Explore our carefully curated selection</p>
+        </div>
+        <div class="menu-tabs">
+            <button class="tab-btn active" data-category="all">All</button>
+            <button class="tab-btn" data-category="appetizers">Appetizers</button>
+            <button class="tab-btn" data-category="mains">Main Courses</button>
+            <button class="tab-btn" data-category="desserts">Desserts</button>
+        </div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="appetizers">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Truffle Arancini</h3>
+                        <span class="menu-item-price">$14</span>
+                    </div>
+                    <p class="menu-item-desc">Crispy risotto balls with truffle cream and mozzarella.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="mains">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Grilled Steak with Mashed Potatoes</h3>
+                        <span class="menu-item-price">$28</span>
+                    </div>
+                    <p class="menu-item-desc">Perfectly grilled steak served with creamy mashed potatoes and green beans.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="desserts">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Chocolate Soufflé</h3>
+                        <span class="menu-item-price">$12</span>
+                    </div>
+                    <p class="menu-item-desc">Rich dark chocolate soufflé with vanilla ice cream.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="appetizers">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Burrata Caprese</h3>
+                        <span class="menu-item-price">$16</span>
+                    </div>
+                    <p class="menu-item-desc">Fresh burrata with heirloom tomatoes and basil pesto.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="mains">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Wagyu Ribeye</h3>
+                        <span class="menu-item-price">$48</span>
+                    </div>
+                    <p class="menu-item-desc">Premium wagyu ribeye with garlic mashed potatoes.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="desserts">
+                <div class="menu-item-content">
+                    <div class="menu-item-header">
+                        <h3 class="menu-item-title">Classic Tiramisu</h3>
+                        <span class="menu-item-price">$10</span>
+                    </div>
+                    <p class="menu-item-desc">Traditional Italian tiramisu with espresso and cocoa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section class="reservation" id="reservation">
+        <div class="section-title">
+            <h2>Make a Reservation</h2>
+            <p>Book your table for an unforgettable experience</p>
+        </div>
+        <div class="reservation-form">
+            <form id="reservationForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time</label>
+                    <select id="time" required>
+                        <option value="">Select a time</option>
+                        <option value="17:00">5:00 PM</option>
+                        <option value="17:30">5:30 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                        <option value="18:30">6:30 PM</option>
+                        <option value="19:00">7:00 PM</option>
+                        <option value="19:30">7:30 PM</option>
+                        <option value="20:00">8:00 PM</option>
+                        <option value="20:30">8:30 PM</option>
+                        <option value="21:00">9:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="guests">Number of Guests</label>
+                    <div class="custom-guests">
+                        <select id="guests" required>
+                            <option value="">Select number of guests</option>
+                            <option value="1">1 Person</option>
+                            <option value="2">2 People</option>
+                            <option value="3">3 People</option>
+                            <option value="4">4 People</option>
+                            <option value="5">5 People</option>
+                            <option value="6">6 People</option>
+                            <option value="7">7 People</option>
+                            <option value="8">8 People</option>
+                            <option value="custom">Custom (Enter below)</option>
+                        </select>
+                        <div class="guest-controls">
+                            <button type="button" class="guest-btn" id="decreaseGuests">-</button>
+                            <button type="button" class="guest-btn" id="increaseGuests">+</button>
+                        </div>
+                    </div>
+                    <input type="number" id="customGuests" min="1" max="20" placeholder="Enter number of guests" style="display: none; margin-top: 10px;">
+                </div>
+                <div class="form-group">
+                    <label for="special">Special Requests</label>
+                    <textarea id="special" rows="3" placeholder="Any special requests or dietary restrictions?"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Book Your Table</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Reservation Success Message Modal -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3>Reservation Confirmed!</h3>
+            <p>Thank you for your reservation. We have received your booking details and will contact you shortly to confirm your table.</p>
+            <p>We look forward to serving you at Delicious Bites!</p>
+            <button class="close-success" id="closeSuccess">Continue Browsing</button>
+        </div>
+    </div>
+
+    <!-- Newsletter Success Message Modal -->
+    <div class="newsletter-success" id="newsletterSuccess">
+        <div class="newsletter-content">
+            <div class="newsletter-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h3>Thank You!</h3>
+            <p>You have been successfully subscribed to our newsletter.</p>
+            <p>You will receive our latest updates, special offers, and culinary news directly to your inbox.</p>
+            <button class="close-newsletter" id="closeNewsletter">Continue Browsing</button>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="section-title">
+            <h2>Gallery</h2>
+            <p>A glimpse into our dining experience</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Elegant dining room">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Restaurant bar area">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Private dining room">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Restaurant kitchen">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Outdoor seating area">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Dessert presentation">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Wine cellar">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Cocktail bar">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-title">
+            <h2>Contact Us</h2>
+            <p>Get in touch with us for any inquiries</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Location</h4>
+                        <p>123 Gourmet Street<br>New York, NY 10001</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Phone</h4>
+                        <p>+1 (555) 123-4567</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <p>info@deliciousbites.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Opening Hours</h4>
+                        <p>Mon-Thu: 5:00 PM - 10:00 PM<br>Fri-Sat: 5:00 PM - 11:00 PM<br>Sun: 4:00 PM - 9:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Delicious Bites</h3>
+                <p>Experience culinary excellence with our award-winning chefs and exceptional service.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#menu">Our Menu</a></li>
+                    <li><a href="#reservation">Reservations</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Newsletter</h3>
+                <p>Subscribe for special offers and updates.</p>
+                <form id="newsletterForm">
+                    <div class="form-group">
+                        <input type="email" placeholder="Your email" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Delicious Bites. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.getElementById('nav');
+
+        menuToggle.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            menuToggle.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close menu when clicking on links
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 60;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Menu filtering
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                tabBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const category = btn.getAttribute('data-category');
+                
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Custom guests functionality
+        const guestsSelect = document.getElementById('guests');
+        const customGuestsInput = document.getElementById('customGuests');
+        const decreaseBtn = document.getElementById('decreaseGuests');
+        const increaseBtn = document.getElementById('increaseGuests');
+
+        guestsSelect.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customGuestsInput.style.display = 'block';
+                customGuestsInput.required = true;
+            } else {
+                customGuestsInput.style.display = 'none';
+                customGuestsInput.required = false;
+            }
+        });
+
+        decreaseBtn.addEventListener('click', function() {
+            let value = parseInt(customGuestsInput.value) || 1;
+            if (value > 1) {
+                customGuestsInput.value = value - 1;
+            }
+        });
+
+        increaseBtn.addEventListener('click', function() {
+            let value = parseInt(customGuestsInput.value) || 1;
+            if (value < 20) {
+                customGuestsInput.value = value + 1;
+            }
+        });
+
+        // Reservation Success message modal
+        const successMessage = document.getElementById('successMessage');
+        const closeSuccess = document.getElementById('closeSuccess');
+
+        // Form submission
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            successMessage.classList.add('show');
+            
+            // Reset form
+            this.reset();
+            customGuestsInput.style.display = 'none';
+        });
+
+        // Close success message
+        closeSuccess.addEventListener('click', () => {
+            successMessage.classList.remove('show');
+        });
+
+        // Close success message when clicking outside
+        successMessage.addEventListener('click', (e) => {
+            if (e.target === successMessage) {
+                successMessage.classList.remove('show');
+            }
+        });
+
+        // Newsletter Success message modal
+        const newsletterSuccess = document.getElementById('newsletterSuccess');
+        const closeNewsletter = document.getElementById('closeNewsletter');
+
+        // Newsletter form submission
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show newsletter success message
+            newsletterSuccess.classList.add('show');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Close newsletter success message
+        closeNewsletter.addEventListener('click', () => {
+            newsletterSuccess.classList.remove('show');
+        });
+
+        // Close newsletter success message when clicking outside
+        newsletterSuccess.addEventListener('click', (e) => {
+            if (e.target === newsletterSuccess) {
+                newsletterSuccess.classList.remove('show');
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Set min date for reservation form
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').setAttribute('min', today);
+    </script>
+</body>
+</html>
